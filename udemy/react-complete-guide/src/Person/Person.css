@@ -1,0 +1,21 @@
+.Person { 
+    width: 60%; 
+    margin: 16px auto; 
+    border: 1px solid #eee; 
+    box-shadow: 0 2px 3px #ccc; 
+    padding: 16px; 
+    text-align: center; 
+}
+
+button { 
+    background: none; 
+    font-size: 12px; 
+    border: solid 3px black; 
+    border-radius: 10px; 
+    transition: 0.8s;
+}
+
+button:hover { 
+    background-color: black; 
+    color: white; 
+}
