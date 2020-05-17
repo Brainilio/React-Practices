@@ -14,13 +14,32 @@ class App extends Component {
   };
 
 
-  nameChangedHandler = event => {
+  nameChangedHandler = (event, id) => {
+
+    // Find personIndex through ID. You want to find the index based on the ID; if the 
+    // Person's index is assignable to the id that exists there; return true.
+    const personIndex = this.state.persons.findIndex(p => { 
+      // find index and see if it s the person iw as looking for 
+      return p.id === id; 
+    })
+
+    // If you found the assignable id to the assignable index, you copy the single person to this object
+    const person = { 
+      ...this.state.persons[personIndex]
+    }
+
+    // You change the name of the person object to the event.target.value that you receive from the person component
+    person.name = event.target.value; 
+
+    // Then you want to copy the entire state 
+    const persons = [...this.state.persons];
+
+    // change the person at the right palce, which is the personindex
+    persons[personIndex] = person
+
+    // Set state with the updated person
     this.setState({
-      persons: [
-        { name: this.state.persons[0].name, age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: "Gabriella", age: 26 }
-      ]
+      persons: persons
     });
   };
 
@@ -63,7 +82,9 @@ class App extends Component {
                   click={() => this.deletePersonHandler(index)}
                   name={person.name}
                   age={person.age} 
-                  key={index}/>
+                  key={person.id}
+
+                  changed={(event) => this.nameChangedHandler(event, person.id)}/>
                )
              })}
             
