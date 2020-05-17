@@ -5,9 +5,9 @@ import Person from "./Person/Person";
 class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Stephanie", age: 26 }
+      { id: 'sadsad', name: "Max", age: 28 },
+      { id: 'asda', name: "Manu", age: 29 },
+      { id: '123123', name: "Stephanie", age: 26 }
     ],
     otherState: "some other value",
     showPersons: false
@@ -24,8 +24,17 @@ class App extends Component {
     });
   };
 
-  deletePersonHandler = () => { 
+  deletePersonHandler = (personIndex) => { 
+    // Copy array into new array using spread operator without changing original state (leave it immutable)
+    const persons = [...this.state.persons]
 
+    // Edit new persons with splice (delete the key-value that was given)
+    persons.splice(personIndex, 1); 
+
+    // Apply new array to state using set-state
+    this.setState({
+      persons: persons
+    })
   }
 
   togglePersonsHandler = () => {
@@ -47,13 +56,14 @@ class App extends Component {
     if(this.state.showPersons){
       persons = (
            <div>
-             {this.state.persons.map(person => { 
+             {this.state.persons.map((person, index) => { 
                return (
-                  <Person 
-                  click={this.deletePersonHandler}
+                  <Person
+
+                  click={() => this.deletePersonHandler(index)}
                   name={person.name}
-                  age={person.age}
-                  />
+                  age={person.age} 
+                  key={index}/>
                )
              })}
             
