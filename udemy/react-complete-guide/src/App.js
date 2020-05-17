@@ -13,17 +13,6 @@ class App extends Component {
     showPersons: false
   };
 
-  switchNameHandler = newName => {
-    // change state dynamically
-    // don't do this this.state.persons[0].name = 'Brainilio'
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: "Darla", age: 29 },
-        { name: "Gabriella", age: 26 }
-      ]
-    });
-  };
 
   nameChangedHandler = event => {
     this.setState({
@@ -34,6 +23,10 @@ class App extends Component {
       ]
     });
   };
+
+  deletePersonHandler = () => { 
+
+  }
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons
@@ -49,21 +42,22 @@ class App extends Component {
       cursor: "pointer"
     };
 
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <button style={style} onClick={this.togglePersonsHandler}>
-          Switch Name
-        </button>
+    let persons = null;
 
-      
-          <div>
-            <Person
-              name={this.state.persons[0].name}
-              age={this.state.persons[0].age}
-            />
-            <Person
+    if(this.state.showPersons){
+      persons = (
+           <div>
+             {this.state.persons.map(person => { 
+               return (
+                  <Person 
+                  click={this.deletePersonHandler}
+                  name={person.name}
+                  age={person.age}
+                  />
+               )
+             })}
+            
+            {/* <Person
               name={this.state.persons[1].name}
               age={this.state.persons[1].age}
               click={this.switchNameHandler.bind(this, "Brai")}
@@ -74,9 +68,19 @@ class App extends Component {
             <Person
               name={this.state.persons[2].name}
               age={this.state.persons[2].age}
-            />
+            /> */}
           </div>
-        
+      );
+    }
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button style={style} onClick={this.togglePersonsHandler}>
+          Switch Name
+        </button>
+        {persons}
       </div>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi I\'m a React App'));
