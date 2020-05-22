@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import Person from "./Person/Person";
-import Radium, {StyleRoot} from 'radium'; 
 
 class App extends Component {
   state = {
@@ -62,18 +61,18 @@ class App extends Component {
   };
 
   render() {
-    const style = {
-      backgroundColor: "green",
-      color: 'white',
-      font: "inherit",
-      border: "1px solid blue",
-      padding: "8px",
-      cursor: "pointer", 
-      ':hover':  { 
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    };
+    // const style = {
+    //   backgroundColor: "green",
+    //   color: 'white',
+    //   font: "inherit",
+    //   border: "1px solid blue",
+    //   padding: "8px",
+    //   cursor: "pointer", 
+    //   ':hover':  { 
+    //     backgroundColor: 'lightgreen',
+    //     color: 'black'
+    //   }
+    // };
 
     let persons = null;
 
@@ -94,13 +93,6 @@ class App extends Component {
           </div> 
       );
 
-      style.backgroundColor = 'red'; 
-
-      // Assign new javascript object to this
-      style[':hover'] =  { 
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
 
     }
 
@@ -115,20 +107,20 @@ class App extends Component {
     }
 
     return (
-      <StyleRoot>
+   
       <div className="App">
         <h1>Hi, I'm a React App</h1>
         <p className={classes.join(' ')}> This is really working!</p>
-        <button style={style} onClick={this.togglePersonsHandler}>
+        <button className="button" onClick={this.togglePersonsHandler}>
           Switch Name
         </button>
         {persons}
       </div>
-      </StyleRoot>
+      
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi I\'m a React App'));
   }
 }
 
 // Higher order component
-export default Radium(App);
+export default App
