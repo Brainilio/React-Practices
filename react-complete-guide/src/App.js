@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import classes from './App.modules.css';
 import Person from "./Person/Person";
+import classes from './App.module.css';
 
 class App extends Component {
   state = {
@@ -86,10 +86,10 @@ class App extends Component {
     // let classes = ['red', 'bold'].join(' '); 
     let assignedClasses = []; 
     if(this.state.persons.length <= 2) { 
-      assignedClasses.push('red'); //classes = ['red']
+      assignedClasses.push(classes.red); //classes = ['red']
     }
     if(this.state.persons.length <= 1) { 
-     assignedClasses.push('bold'); // classes = ['red', 'bold']
+     assignedClasses.push(classes.bold); // classes = ['red', 'bold']
     }
 
     return (
