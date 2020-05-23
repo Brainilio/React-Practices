@@ -16,7 +16,13 @@ class Persons extends Component {
     // compare props that you'll receive with the current props and then make a condition
     // This should always return true or false. 
     console.log("Persons.js shouldcomponentupdate");
-    return true; 
+    // If current props is not equal to the received props, update component.
+    if(nextProps.persons !== this.props.persons) { 
+        return true; 
+    } else { 
+        return false; 
+    }
+ 
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) { 

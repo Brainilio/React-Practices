@@ -7,10 +7,11 @@ const Cockpit = props => {
         // Will run for every render cycle
         console.log('Cockpit.js useffect')
          // HTTP Request... Also runs when component gets created.
-         setTimeout(() => { 
+         const timer = setTimeout(() => { 
              alert('Saved data to cloud!')
          }, 1000); 
          return () => {
+             clearTimeout(timer);
              console.log('Cockpitjs cleanup work in useeffect')
          };
     }, []);
@@ -31,10 +32,10 @@ const Cockpit = props => {
         btnClass = classes.Red;
      }
 
-    if (props.persons.length <= 2) {
+    if (props.personsLength <= 2) {
       assignedClasses.push(classes.red); //classes = ['red']
     }
-    if (props.persons.length <= 1) {
+    if (props.personsLength <= 1) {
       assignedClasses.push(classes.bold); // classes = ['red', 'bold']
     }
 
@@ -50,4 +51,5 @@ const Cockpit = props => {
   );
 };
 
-export default Cockpit;
+// React will store a snapshot of this component only if its input changes, it will re-render it
+export default React.memo(Cockpit);
