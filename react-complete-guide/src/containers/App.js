@@ -4,6 +4,23 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
+  constructor(props) { 
+    super(props);
+    console.log('|App.js| constructor')
+
+
+    // this.state = {
+    //   persons: [
+    //     { id: "sadsad", name: "Max", age: 28 },
+    //     { id: "asda", name: "Manu", age: 29 },
+    //     { id: "123123", name: "Stephanie", age: 26 }
+    //   ],
+    //   otherState: "some other value",
+    //   showPersons: false
+    // };
+  }
+
+  // This is a modern syntax that does all of the above for you 
   state = {
     persons: [
       { id: "sadsad", name: "Max", age: 28 },
@@ -14,6 +31,18 @@ class App extends Component {
     showPersons: false
   };
 
+  static getDerivedStateFromProps(props, state) {
+    console.log('App.js getDerivedStateFromProps', props)
+    return state; 
+  }
+
+  componentWillMount() { 
+    console.log('APPjs componentwillmount')
+  }
+
+  componentDidMount() { 
+    console.log('app js componentdidmount')
+  }
   nameChangedHandler = (event, id) => {
     // Find personIndex through ID. You want to find the index based on the ID; if the
     // Person's index is assignable to the id that exists there; return true.
@@ -61,6 +90,7 @@ class App extends Component {
   };
 
   render() {
+    console.log('App.js render')
     let persons = null;
 
     if (this.state.showPersons) {
@@ -74,6 +104,7 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <Cockpit
+        title={this.props.appTitle}
          persons={this.state.persons}
          showPersons={this.state.showPersons}
          clicked={this.togglePersonsHandler}

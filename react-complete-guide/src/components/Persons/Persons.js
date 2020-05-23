@@ -2,8 +2,9 @@ import React from 'react'
 import Person from './Person/Person'
 
 
-const Persons = (props) => 
-    props.persons.map((person, index) => {
+const Persons = (props) => { 
+    console.log('persons.js rendering...')
+    return props.persons.map((person, index) => {
         return (
           // Higher order component in higher order, key needs to be on the parent element
             <Person
@@ -15,5 +16,6 @@ const Persons = (props) =>
             />
         );
       })
+    }
 
 export default Persons
