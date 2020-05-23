@@ -43,6 +43,15 @@ class App extends Component {
   componentDidMount() { 
     console.log('app js componentdidmount')
   }
+
+  shouldComponentUpdate(nextProps, nextState) { 
+    console.log('app.js shouldcomponentupdate?')
+    return true; 
+  }
+
+  componentDidUpdate() { 
+    console.log('app.js componentdidupdate');
+  }
   nameChangedHandler = (event, id) => {
     // Find personIndex through ID. You want to find the index based on the ID; if the
     // Person's index is assignable to the id that exists there; return true.
