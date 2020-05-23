@@ -52,4 +52,4 @@ const Cockpit = props => {
 };
 
 // React will store a snapshot of this component only if its input changes, it will re-render it
-export default React.memo(Cockpit);
+export default Cockpit
