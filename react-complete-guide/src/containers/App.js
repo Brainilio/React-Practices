@@ -10,20 +10,8 @@ class App extends Component {
   constructor(props) { 
     super(props);
     console.log('|App.js| constructor')
-
-
-    // this.state = {
-    //   persons: [
-    //     { id: "sadsad", name: "Max", age: 28 },
-    //     { id: "asda", name: "Manu", age: 29 },
-    //     { id: "123123", name: "Stephanie", age: 26 }
-    //   ],
-    //   otherState: "some other value",
-    //   showPersons: false
-    // };
   }
 
-  // This is a modern syntax that does all of the above for you 
   state = {
     persons: [
       { id: "sadsad", name: "Max", age: 28 },
@@ -32,7 +20,8 @@ class App extends Component {
     ],
     otherState: "some other value",
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -79,8 +68,12 @@ class App extends Component {
     persons[personIndex] = person;
 
     // Set state with the updated person
-    this.setState({
-      persons: persons
+    // Best practice for state update that depend on the old state.
+    this.setState((prevState, props) => {
+      return { 
+        persons: persons, 
+        changeCounter:  prevState.changeCounter + 1
+      }
     });
   };
 

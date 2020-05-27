@@ -1,17 +1,24 @@
 import React, { Component, Fragment } from "react";
 import withClass from '../../../hoc/withClass'
 import classes from "./Person.module.css";
+import PropTypes from 'prop-types';
 // import Aux from '../../../hoc/Aux'
 
 class Person extends Component {
+
+  // Store ref in input-element
+  constructor(props) { 
+    super(props);
+    this.inputElementRef = React.createRef();
+  }
+
+
+  componentDidMount() { 
+    this.inputElementRef.current.focus();
+  }
+
+
   render() {
-    // const rnd = Math.random();
-
-    // Error
-    // if(rnd > 0.7) {
-    //     throw new Error('Something went wrong.')
-    // }
-
     console.log("Person.js rendering");
     return ( 
         <Fragment> 
@@ -21,6 +28,9 @@ class Person extends Component {
         <p>{this.props.children}</p>
         <input
           type="text"
+          /* Special property you can pass into any component */
+          /* ref={(inputEl) => {this.inputElement = inputEl}} */
+          ref={this.inputElementRef}
           onChange={this.props.changed}
           value={this.props.name}
         />
@@ -28,5 +38,15 @@ class Person extends Component {
     );
   }
 }
+
+
+
+// Make sure to let know that your props should have these datatypes
+Person.propTypes = {
+  click: PropTypes.func, 
+  name: PropTypes.string, 
+  age: PropTypes.number,
+  changed: PropTypes.func
+};
 
 export default withClass(Person, classes.Person);
