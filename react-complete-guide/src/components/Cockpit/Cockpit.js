@@ -1,9 +1,14 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useContext} from "react";
 import classes from './Cockpit.module.css';
 import AuthContext from '../../context/auth-context'
 
 const Cockpit = props => {
+
+    // Using react hooks for ref
     const toggleBtnRef = useRef(null);
+
+    // Using react hooks for context
+    const authContext = useContext(AuthContext);
 
     useEffect(() => { 
         // Will run for every render cycle
@@ -52,9 +57,9 @@ const Cockpit = props => {
       <button ref={toggleBtnRef} className={btnClass} onClick={props.clicked}>
         Switch Name
       </button>
-      <AuthContext.Consumer> 
-        {(context) => <button onClick={context.login}>Log In</button>} 
-      </AuthContext.Consumer>
+    
+       <button onClick={authContext.login}>Log In</button>
+
     </div>
   );
 };
