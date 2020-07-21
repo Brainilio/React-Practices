@@ -32,12 +32,15 @@ const ROOT_REDUCER = (state = initialState, action) => {
 // Won't do much, needs to be initialized with reduce in mind;
 const store = createStore(ROOT_REDUCER)
 
+// ### SUBSCRIPTION => takes callback function
+store.subscribe(() => {
+	//on state update, everytime it updates:
+	console.log("[Subscription]", store.getState())
+})
+
 // ### ACTION
 //Dispatching Action: convention should be all uppercase and be descriptive in your actions
 store.dispatch({ type: "INC_COUNTER" }) //
 store.dispatch({ type: "ADD_COUNTER", value: 10 }) //increase counter by 10
 
-// store.
 console.log(store.getState())
-
-//Subscription
