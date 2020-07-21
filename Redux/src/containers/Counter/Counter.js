@@ -37,7 +37,8 @@ class Counter extends Component {
 	render() {
 		return (
 			<div>
-				<CounterOutput value={this.state.counter} />
+				{/* properties received from the subscription */}
+				<CounterOutput value={this.props.counter} />
 				<CounterControl
 					label="Increment"
 					clicked={this.props.onIncrementCounter}
