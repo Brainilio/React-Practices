@@ -1,0 +1,28 @@
+What is state?
+
+Example:
+
+- Ingredients that you add to a burger. 
+- Is an user authenticated? => might determine the options you might show in the menu for example
+- Is a modal open? => UI state! It's less about data, it's more about pure UI only state.
+- List of blog 
+
+State can be complex: 
+
+- Prop drilling (continuously passing down state) 
+
+For example: 
+
+Place 1: 
+1. In dashboard
+2. Is user logged in? 
+
+Place 2:
+3. In your product cart
+4. Is user logged in? 
+
+You would need to connect the state from the Auth under login all the way to 
+the product - cart section; that would be extremely difficult.
+
+
+Redux can be used to pass state down globally without having to prop drill.
