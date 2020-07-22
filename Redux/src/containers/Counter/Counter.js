@@ -60,19 +60,19 @@ class Counter extends Component {
 	}
 }
 
-//before export =>
+//before export => references the state from the reducer, so you can use it. (this is the state)
 const mapStateToProps = (state) => {
 	return {
 		counter: state.counter,
 	}
 }
 
-// dispatch
+// dispatch, this is what will go to your reducer (these are the methods that will target the state)
 const mapDispatchToProps = (dispatch) => {
 	return {
 		onIncrementCounter: () => dispatch({ type: "INCREMENT" }),
 	}
 }
 
-//hoc connect
+//hoc connect, pass these functions to Counter
 export default connect(mapStateToProps, mapDispatchToProps)(Counter)
