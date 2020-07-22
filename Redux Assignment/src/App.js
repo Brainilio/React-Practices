@@ -1,6 +1,4 @@
 import React, { Component } from "react"
-import {} from "redux"
-import {} from ""
 
 import Persons from "./containers/Persons"
 
