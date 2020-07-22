@@ -3,6 +3,7 @@
 // js object that i wanna use as a initial state
 const initialState = {
 	counter: 0,
+	results: [],
 }
 
 //fall back on initialstate
@@ -16,6 +17,8 @@ const reducer = (state = initialState, action) => {
 			return { ...state, counter: state.counter + action.value }
 		case "SUB":
 			return { ...state, counter: state.counter - action.value }
+		case "STORE_RESULT":
+			return { ...state }
 		default:
 			return state
 	}
