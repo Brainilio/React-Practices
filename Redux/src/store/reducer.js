@@ -1,4 +1,4 @@
-//export reducer that i wanna use here
+import * as actionTypes from "./actions"
 
 // js object that i wanna use as a initial state
 const initialState = {
@@ -9,23 +9,23 @@ const initialState = {
 //fall back on initialstate
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
-		case "INCREMENT":
+		case actionTypes.INCREMENT:
 			//make new object out of state
 			const newState = Object.assign({}, state)
 			newState.counter = state.counter + 1
 			return newState
-		case "DECREMENT":
+		case actionTypes.DECREMENT:
 			return { ...state, counter: state.counter - 1 }
-		case "ADD":
+		case actionTypes.ADD:
 			return { ...state, counter: state.counter + action.value }
-		case "SUB":
+		case actionTypes.SUB:
 			return { ...state, counter: state.counter - action.value }
-		case "STORE_RESULT":
+		case actionTypes.STORE_RESULT:
 			return {
 				...state,
 				results: state.results.concat({ id: new Date(), value: state.counter }),
 			}
-		case "DELETE_RESULT":
+		case actionTypes.DELETE_RESULT:
 			// # option 1:
 			// const id = 2;
 			// const newArray = [...state.results]
