@@ -26,7 +26,9 @@ class Counter extends Component {
 					label="Subtract 5"
 					clicked={() => this.props.onSubCounter(5)}
 				/>
-				<button onClick={this.props.onStoreResult}>Store result</button>
+				<button onClick={() => this.props.onStoreResult(this.props.counter)}>
+					Store result
+				</button>
 				<ul>
 					{this.props.storedResults.map((result) => (
 						<li
@@ -45,8 +47,8 @@ class Counter extends Component {
 //before export => references the state from the reducer, so you can use it. (this is the state)
 const mapStateToProps = (state) => {
 	return {
-		counter: state.counter,
-		storedResults: state.results,
+		counter: state.ctr.counter,
+		storedResults: state.res.results,
 	}
 }
 
@@ -57,7 +59,8 @@ const mapDispatchToProps = (dispatch) => {
 		onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
 		onAddCounter: (value) => dispatch({ type: actionTypes.ADD, value: value }),
 		onSubCounter: (value) => dispatch({ type: actionTypes.SUB, value: value }),
-		onStoreResult: () => dispatch({ type: actionTypes.STORE_RESULT }),
+		onStoreResult: (res) =>
+			dispatch({ type: actionTypes.STORE_RESULT, result: res }),
 		onDeleteResult: (id) =>
 			dispatch({ type: actionTypes.DELETE_RESULT, resultId: id }),
 	}
