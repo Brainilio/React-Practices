@@ -11,7 +11,7 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.ADD_PERSON:
 			const newPersonArray = [...state.persons]
 			let updatedPersonArray = newPersonArray.concat({
-				id: new Date(),
+				id: action.id,
 				name: action.name,
 				age: action.age,
 			})
