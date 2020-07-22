@@ -9,7 +9,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case actionTypes.ADD_PERSON:
-			let newPersonArray = [...state.persons]
+			const newPersonArray = [...state.persons]
 			let updatedPersonArray = newPersonArray.concat({
 				id: new Date(),
 				name: action.name,
@@ -20,7 +20,11 @@ const reducer = (state = initialState, action) => {
 				persons: updatedPersonArray,
 			}
 		case actionTypes.DELETE_PERSON:
-			return { ...state }
+			const personArray = [...state.persons]
+			let removedPersonFromArray = personArray.filter(
+				(person) => person.id !== action.id
+			)
+			return { ...state, persons: removedPersonFromArray }
 
 		default:
 			return state
