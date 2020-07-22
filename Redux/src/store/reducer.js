@@ -23,7 +23,21 @@ const reducer = (state = initialState, action) => {
 		case "STORE_RESULT":
 			return {
 				...state,
-				results: state.results.concat(state.counter),
+				results: state.results.concat({ id: new Date(), value: state.counter }),
+			}
+		case "DELETE_RESULT":
+			// # option 1:
+			// const id = 2;
+			// const newArray = [...state.results]
+			// newArray.splice(id, 1)
+
+			// # option 2:
+			const updatedArray = state.results.filter(
+				(result, index) => result.id !== action.resultId
+			)
+			return {
+				...state,
+				results: updatedArray,
 			}
 		default:
 			return state
