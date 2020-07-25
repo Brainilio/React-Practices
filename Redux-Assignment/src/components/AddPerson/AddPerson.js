@@ -4,8 +4,8 @@ import "./AddPerson.css"
 
 const AddPerson = (props) => {
 	const [person, setPerson] = useState({
-		name: null,
-		age: null,
+		name: "",
+		age: "",
 	})
 
 	const nameChangedHandler = (e) => {
@@ -18,11 +18,25 @@ const AddPerson = (props) => {
 
 	return (
 		<div className="AddPerson">
-			<input onChange={nameChangedHandler} type="text" placeholder="Name" />
-			<input onChange={ageChangedHandler} type="number" placeholdeor="Age" />
-			<button onClick={props.personAdded}>Add Person</button>
-			{person.name}
-			{person.age}
+			<input
+				value={person.name}
+				onChange={nameChangedHandler}
+				type="text"
+				placeholder="Name"
+			/>
+			<input
+				value={person.age}
+				onChange={ageChangedHandler}
+				type="number"
+				placeholdeor="Age"
+			/>
+			<button
+				onClick={() =>
+					props.personAdded(Math.random(), person.name, person.age)
+				}
+			>
+				Add Person
+			</button>
 		</div>
 	)
 }
