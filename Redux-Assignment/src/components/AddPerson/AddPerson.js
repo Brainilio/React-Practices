@@ -1,11 +1,30 @@
-import React from "react"
+import React, { useState } from "react"
 
 import "./AddPerson.css"
 
-const addPerson = (props) => (
-	<div className="AddPerson">
-		<button onClick={props.personAdded}>Add Person</button>
-	</div>
-)
+const AddPerson = (props) => {
+	const [person, setPerson] = useState({
+		name: null,
+		age: null,
+	})
 
-export default addPerson
+	const nameChangedHandler = (e) => {
+		setPerson({ ...person, name: e.target.value })
+	}
+
+	const ageChangedHandler = (e) => {
+		setPerson({ ...person, age: e.target.value })
+	}
+
+	return (
+		<div className="AddPerson">
+			<input onChange={nameChangedHandler} type="text" placeholder="Name" />
+			<input onChange={ageChangedHandler} type="number" placeholdeor="Age" />
+			<button onClick={props.personAdded}>Add Person</button>
+			{person.name}
+			{person.age}
+		</div>
+	)
+}
+
+export default AddPerson
