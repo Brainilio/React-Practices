@@ -1,13 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import {
-	increment,
-	decrement,
-	add,
-	sub,
-	storeResult,
-	delResult,
-} from "../../store/actions/actions"
+import { increment, decrement, add, sub } from "../../store/actions/counter"
+import { storeResult, delResult } from "../../store/actions/result"
 import CounterControl from "../../components/CounterControl/CounterControl"
 import CounterOutput from "../../components/CounterOutput/CounterOutput"
 
