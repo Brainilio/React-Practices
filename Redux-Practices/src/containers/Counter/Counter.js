@@ -1,6 +1,13 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import * as actionTypes from "../../store/actions"
+import {
+	increment,
+	decrement,
+	add,
+	sub,
+	storeResult,
+	delResult,
+} from "../../store/actions/actions"
 import CounterControl from "../../components/CounterControl/CounterControl"
 import CounterOutput from "../../components/CounterOutput/CounterOutput"
 
@@ -55,14 +62,12 @@ const mapStateToProps = (state) => {
 // dispatch, this is what will go to your reducer (these are the methods that will target the state)
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
-		onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
-		onAddCounter: (value) => dispatch({ type: actionTypes.ADD, value: value }),
-		onSubCounter: (value) => dispatch({ type: actionTypes.SUB, value: value }),
-		onStoreResult: (res) =>
-			dispatch({ type: actionTypes.STORE_RESULT, result: res }),
-		onDeleteResult: (id) =>
-			dispatch({ type: actionTypes.DELETE_RESULT, resultId: id }),
+		onIncrementCounter: () => dispatch(increment()),
+		onDecrementCounter: () => dispatch(decrement()),
+		onAddCounter: (value) => dispatch(add(value)),
+		onSubCounter: (value) => dispatch(sub(value)),
+		onStoreResult: (res) => dispatch(storeResult(res)),
+		onDeleteResult: (id) => dispatch(delResult(id)),
 	}
 }
 
