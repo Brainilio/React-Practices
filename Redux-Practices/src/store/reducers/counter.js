@@ -1,4 +1,5 @@
 import * as actionTypes from "../actions/actionTypes"
+import { updateObject } from "../utility"
 
 // js object that i wanna use as a initial state
 const initialState = {
@@ -12,13 +13,13 @@ const counter_reducer = (state = initialState, action) => {
 			//make new object out of state
 			const newState = Object.assign({}, state)
 			newState.counter = state.counter + 1
-			return newState
+			return { ...state, counter: state.counter + 1 }
 		case actionTypes.DECREMENT:
 			return { ...state, counter: state.counter - 1 }
 		case actionTypes.ADD:
-			return { ...state, counter: state.counter + action.value }
+			return updateObject(state, { counter: state.counter + action.value })
 		case actionTypes.SUB:
-			return { ...state, counter: state.counter - action.value }
+			return updateObject(state, { counter: state.counter - action.value })
 		default:
 			return state
 	}
