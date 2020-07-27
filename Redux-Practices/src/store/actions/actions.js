@@ -6,6 +6,7 @@ export const STORE_RESULT = "STORE_RESULT"
 export const DELETE_RESULT = "DELETE_RESULT"
 
 //action creators
+
 export const increment = () => {
 	return {
 		type: INCREMENT,
@@ -32,10 +33,20 @@ export const sub = (value) => {
 	}
 }
 
-export const storeResult = (res) => {
+//synchronous
+export const saveResult = (res) => {
 	return {
 		type: STORE_RESULT,
 		result: res,
+	}
+}
+
+//async using middelware / thunk
+export const storeResult = (res) => {
+	return (dispatch) => {
+		setTimeout(() => {
+			dispatch(saveResult(res))
+		}, 2000)
 	}
 }
 
