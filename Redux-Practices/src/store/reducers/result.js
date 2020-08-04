@@ -1,4 +1,4 @@
-import * as actionTypes from "../actions"
+import * as actionTypes from "../actions/actionTypes"
 
 // js object that i wanna use as a initial state
 const initialState = {
