@@ -5,9 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "webpack-dev-server"
+		"start": "webpack-dev-server",
+		"build:prod": "webpack --config webpack.prod.js"
 	},
-	"author": "",
+	"author": "Brainilio",
 	"license": "ISC",
 	"browserslist": ">$ 1%, last 2 versions",
 	"devDependencies": {
@@ -19,6 +20,7 @@
 		"autoprefixer": "^9.8.6",
 		"babel-loader": "^8.1.0",
 		"css-loader": "^4.2.0",
+		"file-loader": "^6.0.0",
 		"html-webpack-plugin": "^4.3.0",
 		"postcss-loader": "^3.0.0",
 		"style-loader": "^1.2.1",
