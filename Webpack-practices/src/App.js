@@ -1,7 +1,13 @@
 import React, { Component } from "react"
 import { Link, Route } from "react-router-dom"
+import asyncComponent from "./hoc/asyncComponent"
+
 import Users from "./containers/Users"
-import Pizza from "./containers/Pizza"
+
+//LAZY LOADING
+const AsyncPizza = asyncComponent(() => {
+	return import("./containers/Pizza")
+})
 
 class App extends Component {
 	render() {
