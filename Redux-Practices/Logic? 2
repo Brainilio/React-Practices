@@ -1,0 +1,3 @@
+Action creators => can run async code and shouldn't prepare the state update too much.
+
+reducer => pure, sync code only!, core redux concept: reducers update the state

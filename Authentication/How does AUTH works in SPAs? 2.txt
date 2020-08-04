@@ -1,0 +1,10 @@
+Lifecycle AUTH: 
+
+- SPA sounds AUTH to SERVER (any restful api) to validate (email, password)
+- SERVER doesn't send sesison back, because it's usually a restful api or stateless 
+- SERVER sends Token back (a javascript object) 
+- Object stored in localStorage (not redux, because it can be lost)
+
+- Let's say we send a request to protected resource in server (change passwrod, or create blogpost) 
+- Because we constantly don't check session, because there's none; we send a token, which is created by the server 
+- Only the token sent by the server is accepted on the server. 

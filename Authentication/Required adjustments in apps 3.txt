@@ -1,0 +1,5 @@
+Adjustments: 
+
+1. Signup & Signup Views
+2. Implement Guards to routes
+3. Pass Auth information to Backend 
