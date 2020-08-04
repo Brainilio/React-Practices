@@ -3,14 +3,17 @@ const autoprefixer = require("autoprefixer")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = {
-	mode: "development",
+	devtool: "cheap-module-eval-source-map",
 	entry: "./src/index.js",
 	output: {
 		path: path.resolve(__dirname, "dist"),
 		filename: "bundle.js",
+		chunkFilename: "[id].js",
 		publicPath: "",
 	},
-	devtool: "cheap-module-eval-source-map",
+	resolve: {
+		extensions: [".js", ".jsx"],
+	},
 	module: {
 		rules: [
 			{
@@ -27,16 +30,19 @@ module.exports = {
 						loader: "css-loader",
 						options: {
 							importLoaders: 1,
-							modules: {
-								localIdentName: "[name]__[local]__[hash:base64:5]",
-							},
+							modules: true,
+							localIdentName: "[name]__[local]__[hash:base64:5]",
 						},
 					},
 					{
 						loader: "postcss-loader",
 						options: {
 							ident: "postcss",
-							plugins: () => [autoprefixer()],
+							plugins: () => [
+								autoprefixer({
+									browsers: ["> 1%", "last 2 versions"],
+								}),
+							],
 						},
 					},
 				],
