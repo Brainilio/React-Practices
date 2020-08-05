@@ -3,6 +3,7 @@ import IngredientForm from "./IngredientForm"
 import IngredientList from "./IngredientList"
 import ErrorModal from "../UI/ErrorModal"
 import Search from "./Search"
+import useHttp from '../../hooks/http'
 
 const ingredientReducer = (currentIngs, action) => {
 	switch (action.type) {
@@ -17,32 +18,13 @@ const ingredientReducer = (currentIngs, action) => {
 	}
 }
 
-const HttpReducer = (currentState, action) => {
-	switch (action.type) {
-		case "START":
-			return { loading: true, error: null }
-		case "SUCCESS":
-			return { ...currentState, loading: false }
-		case "FAILED":
-			return { loading: false, error: action.error }
-		case "CLEAR":
-			return { ...currentState, error: null }
-		default:
-			throw new Error("Should not get there!")
-	}
-}
 
 const Ingredients = () => {
 	const [ingredients, dispatch] = React.useReducer(ingredientReducer, [])
-	const [httpstate, httpdispatch] = React.useReducer(HttpReducer, {
-		loading: false,
-		error: null,
-	})
-	// const [isLoading, setIsloading] = React.useState(false)
-	// const [error, setError] = React.useState()
-
-	console.log("Rendering..")
-	React.useEffect(() => {
+  const { isLoading, error, data, sendRequest } = useHttp();
+	
+  
+  React.useEffect(() => {
 		console.log("Rendering ingredients", ingredients)
 	}, [ingredients])
 
@@ -55,46 +37,33 @@ const Ingredients = () => {
 	}, [])
 
 	const addIngredientHandler = React.useCallback((ingredient) => {
-		httpdispatch({ type: "START" })
-		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
-			method: "POST",
-			body: JSON.stringify(ingredient),
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((response) => {
-				httpdispatch({ type: "SUCCESS" })
-				return response.json()
-			})
-			.then((resData) => {
-				dispatch({
-					type: "ADD",
-					newIngredient: {
-						id: resData.name,
-						...ingredient,
-					},
-				})
-			})
+		// httpdispatch({ type: "START" })
+		// fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
+		// 	method: "POST",
+		// 	body: JSON.stringify(ingredient),
+		// 	headers: { "Content-Type": "application/json" },
+		// })
+		// 	.then((response) => {
+		// 		httpdispatch({ type: "SUCCESS" })
+		// 		return response.json()
+		// 	})
+		// 	.then((resData) => {
+		// 		dispatch({
+		// 			type: "ADD",
+		// 			newIngredient: {
+		// 				id: resData.name,
+		// 				...ingredient,
+		// 			},
+		// 		})
+		// 	})
 	}, [])
 
 	const removeIngredientHandler = React.useCallback((id) => {
-		httpdispatch({ type: "START" })
-		fetch(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, {
-			method: "DELETE",
-		})
-			.then(() => {
-				httpdispatch({ type: "SUCCESS" })
-				dispatch({
-					type: "DELETE",
-					id: id,
-				})
-			})
-			.catch((error) => {
-				httpdispatch({ type: "FAILED", error: "Something went wrong!" })
-			})
-	}, [])
+		sendRequest(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, 'DELETE', )
+	}, [sendRequest])
 
 	const clearError = React.useCallback(() => {
-		httpdispatch({ type: "CLEAR" })
+		// httpdispatch({ type: "CLEAR" })
 	}, [])
 
 	const ingredientList = useMemo(() => {
@@ -108,13 +77,13 @@ const Ingredients = () => {
 
 	return (
 		<div className="App">
-			{httpstate.error && (
-				<ErrorModal onClose={clearError}>{httpstate.error}</ErrorModal>
+			{error && (
+				<ErrorModal onClose={clearError}>{error}</ErrorModal>
 			)}
 
 			<IngredientForm
 				onAdd={addIngredientHandler}
-				loading={httpstate.loading}
+				loading={isLoading}
 			/>
 			<section>
 				<Search onLoadIngredients={filteredIngredientsHandler} />
