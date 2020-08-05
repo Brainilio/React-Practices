@@ -5,43 +5,15 @@ import IngredientList from "./IngredientList"
 import Search from "./Search"
 
 const Ingredients = (props) => {
-	const [ingredients, setIngredients] = React.useState([
-		{
-			id: 3,
-			title: "Banana",
-			amount: 3,
-		},
-		{
-			id: 2,
-			title: "Apples",
-			amount: 3,
-		},
-		{
-			id: 5,
-			title: "Oranges",
-			amount: 5,
-		},
-	])
-
-	React.useEffect(() => {
-		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json")
-			.then((response) => response.json())
-			.then((data) => {
-				const loadedIngredients = []
-				for (const key in data) {
-					loadedIngredients.push({
-						id: key,
-						title: data[key].title,
-						amount: data[key].amount,
-					})
-				}
-				setIngredients((prev) => [...prev, ...loadedIngredients])
-			})
-	}, [])
+	const [ingredients, setIngredients] = React.useState([])
 
 	React.useEffect(() => {
 		console.log("Rendering", ingredients)
 	}, [ingredients])
+
+	const filteredIngredientsHandler = React.useCallback((filterIg) => {
+		setIngredients(filterIg)
+	}, [])
 
 	const addIngredientHandler = (ingredient) => {
 		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
@@ -79,7 +51,7 @@ const Ingredients = (props) => {
 			<IngredientForm onAdd={addIngredientHandler} />
 
 			<section>
-				<Search />
+				<Search onLoadIngredients={filteredIngredientsHandler} />
 				<IngredientList
 					onRemoveItem={removeIngredientHandler}
 					ingredients={ingredients}
