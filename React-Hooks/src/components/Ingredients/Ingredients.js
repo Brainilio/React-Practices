@@ -5,8 +5,21 @@ import IngredientList from "./IngredientList"
 import ErrorModal from "../UI/ErrorModal"
 import Search from "./Search"
 
+const ingredientReducer = (currentIngs, action) => {
+	switch (action.type) {
+		case "SET":
+			return action.ingredients
+		case "ADD":
+			return [...currentIngs, action.newIngredient]
+		case "DELETE":
+			return currentIngs.filter((ing) => ing.id !== action.id)
+		default:
+			throw new Error("Should not get there!")
+	}
+}
+
 const Ingredients = (props) => {
-	const [ingredients, setIngredients] = React.useState([])
+	const [ingredients, dispatch] = React.useReducer(ingredientReducer, [])
 	const [isLoading, setIsloading] = React.useState(false)
 	const [error, setError] = React.useState()
 
@@ -15,7 +28,11 @@ const Ingredients = (props) => {
 	}, [ingredients])
 
 	const filteredIngredientsHandler = React.useCallback((filterIg) => {
-		setIngredients(filterIg)
+		// setIngredients(filterIg)
+		dispatch({
+			type: "SET",
+			ingredients: filterIg,
+		})
 	}, [])
 
 	const addIngredientHandler = (ingredient) => {
@@ -30,13 +47,13 @@ const Ingredients = (props) => {
 				return response.json()
 			})
 			.then((resData) => {
-				setIngredients((prevIngredients) => [
-					...prevIngredients,
-					{
+				dispatch({
+					type: "ADD",
+					newIngredient: {
 						id: resData.name,
 						...ingredient,
 					},
-				])
+				})
 			})
 	}
 
@@ -45,12 +62,16 @@ const Ingredients = (props) => {
 		fetch(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, {
 			method: "DELETE",
 		})
-			.then((response) => {
+			.then(() => {
 				setIsloading(false)
-				setIngredients((prevIg) => prevIg.filter((ig) => ig.id !== id))
+				dispatch({
+					type: "DELETE",
+					id: id,
+				})
 			})
 			.catch((error) => {
 				setError("Something went wrong!")
+				setIsloading(false)
 			})
 	}
 
@@ -60,7 +81,6 @@ const Ingredients = (props) => {
 				<ErrorModal
 					onClose={() => {
 						setError(null)
-						setIsloading(false)
 					}}
 				>
 					{error}
