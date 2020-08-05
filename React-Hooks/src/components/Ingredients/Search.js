@@ -10,7 +10,7 @@ const Search = React.memo((props) => {
 	const inputRef = React.useRef()
 	// only fires when enteredfilter changes.
 	React.useEffect(() => {
-		setTimeout(() => {
+		const timer = setTimeout(() => {
 			if (enteredFilter === inputRef.current.value) {
 				//query string
 				const query =
@@ -34,6 +34,10 @@ const Search = React.memo((props) => {
 					})
 			}
 		}, 500)
+		return () => {
+			//will run the old timer before it sets a new one, ensures that we will have 1 ongoing timer
+			clearTimeout(timer)
+		}
 	}, [enteredFilter, onLoadIngredients, inputRef])
 
 	return (
