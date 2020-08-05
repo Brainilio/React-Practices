@@ -23,20 +23,25 @@ const Ingredients = (props) => {
 		},
 	])
 
-	React.useEffect(() => {}, [])
+	React.useEffect(() => {
+		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json")
+			.then((response) => response.json())
+			.then((data) => {
+				const loadedIngredients = []
+				for (const key in data) {
+					loadedIngredients.push({
+						id: key,
+						title: data[key].title,
+						amount: data[key].amount,
+					})
+				}
+				setIngredients((prev) => [...prev, ...loadedIngredients])
+			})
+	}, [])
 
-	// fetch("https://dummyproject-35081.firebaseio.com/ingredients.json")
-	// 	.then((response) => response.json())
-	// 	.then((data) => {
-	// 		const loadedIngredients = []
-	// 		for (const key in data) {
-	// 			loadedIngredients.push({
-	// 				id: key,
-	// 				title: data[key].title,
-	// 				amount: data[key].amount,
-	// 			})
-	// 		}
-	// 	})
+	React.useEffect(() => {
+		console.log("Rendering", ingredients)
+	}, [ingredients])
 
 	const addIngredientHandler = (ingredient) => {
 		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
