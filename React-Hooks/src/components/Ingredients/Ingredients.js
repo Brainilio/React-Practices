@@ -1,5 +1,4 @@
-import React from "react"
-
+import React, { useMemo } from "react"
 import IngredientForm from "./IngredientForm"
 import IngredientList from "./IngredientList"
 import ErrorModal from "../UI/ErrorModal"
@@ -42,6 +41,7 @@ const Ingredients = (props) => {
 	// const [isLoading, setIsloading] = React.useState(false)
 	// const [error, setError] = React.useState()
 
+	console.log("Rendering..")
 	React.useEffect(() => {
 		console.log("Rendering", ingredients)
 	}, [ingredients])
@@ -54,9 +54,8 @@ const Ingredients = (props) => {
 		})
 	}, [])
 
-	const addIngredientHandler = (ingredient) => {
+	const addIngredientHandler = React.useCallback((ingredient) => {
 		httpdispatch({ type: "START" })
-
 		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
 			method: "POST",
 			body: JSON.stringify(ingredient),
@@ -75,9 +74,9 @@ const Ingredients = (props) => {
 					},
 				})
 			})
-	}
+	})
 
-	const removeIngredientHandler = (id) => {
+	const removeIngredientHandler = React.useCallback((id) => {
 		httpdispatch({ type: "START" })
 		fetch(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, {
 			method: "DELETE",
@@ -92,7 +91,16 @@ const Ingredients = (props) => {
 			.catch((error) => {
 				httpdispatch({ type: "FAILED", error: "Something went wrong!" })
 			})
-	}
+	}, [])
+
+	const ingredientList = useMemo(() => {
+		return (
+			<IngredientList
+				onRemoveItem={removeIngredientHandler}
+				ingredients={ingredients}
+			/>
+		)
+	}, [ingredients, removeIngredientHandler])
 
 	return (
 		<div className="App">
@@ -112,10 +120,7 @@ const Ingredients = (props) => {
 			/>
 			<section>
 				<Search onLoadIngredients={filteredIngredientsHandler} />
-				<IngredientList
-					onRemoveItem={removeIngredientHandler}
-					ingredients={ingredients}
-				/>
+				{ingredientList}
 			</section>
 		</div>
 	)
