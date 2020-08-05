@@ -3,7 +3,7 @@ import { useReducer, useCallback } from "react"
 const HttpReducer = (currentState, action) => {
 	switch (action.type) {
 		case "START":
-			return { loading: true, error: null, data: null }
+			return { loading: true, error: null, data: null, extra: action.extra }
 		case "SUCCESS":
 			return { ...currentState, loading: false, data: action.responseData }
 		case "FAILED":
@@ -21,10 +21,12 @@ const useHttp = () => {
 		loading: false,
 		error: null,
 		data: null,
+          extra: null
 	})
 
-	const sendRequest =  useCallback((url, method, body) => {
-		httpdispatch({ type: "START" })
+	const sendRequest =  useCallback((url, method, body, reqExtra) => {
+		httpdispatch({ type: "START", 
+                         extra: reqExtra })
 		fetch(url, {
 			method: method,
 			body: body,
@@ -47,7 +49,8 @@ const useHttp = () => {
 		isLoading: httpstate.loading,
 		data: httpstate.data,
           error: httpstate.error,
-          sendRequest: sendRequest
+          sendRequest: sendRequest, 
+          reqExtra: httpstate.extra
 	}
 }
 

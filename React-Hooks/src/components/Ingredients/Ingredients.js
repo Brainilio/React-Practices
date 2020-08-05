@@ -21,12 +21,13 @@ const ingredientReducer = (currentIngs, action) => {
 
 const Ingredients = () => {
 	const [ingredients, dispatch] = React.useReducer(ingredientReducer, [])
-  const { isLoading, error, data, sendRequest } = useHttp();
+  const { isLoading, error, data, sendRequest, reqExtra} = useHttp();
 	
   
+ //when new data, call dispatch
   React.useEffect(() => {
-		console.log("Rendering ingredients", ingredients)
-	}, [ingredients])
+    dispatch({type: 'DELETE', id: reqExtra})
+	}, [data, reqExtra])
 
 	const filteredIngredientsHandler = React.useCallback((filterIg) => {
 		// setIngredients(filterIg)
@@ -59,7 +60,7 @@ const Ingredients = () => {
 	}, [])
 
 	const removeIngredientHandler = React.useCallback((id) => {
-		sendRequest(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, 'DELETE', )
+		sendRequest(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, 'DELETE', null, id )
 	}, [sendRequest])
 
 	const clearError = React.useCallback(() => {
