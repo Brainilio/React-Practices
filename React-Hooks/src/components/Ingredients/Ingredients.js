@@ -18,10 +18,29 @@ const ingredientReducer = (currentIngs, action) => {
 	}
 }
 
+const HttpReducer = (currentState, action) => {
+	switch (action.type) {
+		case "START":
+			return { loading: true, error: null }
+		case "SUCCESS":
+			return { ...currentState, loading: false }
+		case "FAILED":
+			return { loading: false, error: action.error }
+		case "CLEAR":
+			return { ...currentState, error: null }
+		default:
+			throw new Error("Should not get there!")
+	}
+}
+
 const Ingredients = (props) => {
 	const [ingredients, dispatch] = React.useReducer(ingredientReducer, [])
-	const [isLoading, setIsloading] = React.useState(false)
-	const [error, setError] = React.useState()
+	const [httpstate, httpdispatch] = React.useReducer(HttpReducer, {
+		loading: false,
+		error: null,
+	})
+	// const [isLoading, setIsloading] = React.useState(false)
+	// const [error, setError] = React.useState()
 
 	React.useEffect(() => {
 		console.log("Rendering", ingredients)
@@ -36,14 +55,15 @@ const Ingredients = (props) => {
 	}, [])
 
 	const addIngredientHandler = (ingredient) => {
-		setIsloading(true)
+		httpdispatch({ type: "START" })
+
 		fetch("https://dummyproject-35081.firebaseio.com/ingredients.json", {
 			method: "POST",
 			body: JSON.stringify(ingredient),
 			headers: { "Content-Type": "application/json" },
 		})
 			.then((response) => {
-				setIsloading(false)
+				httpdispatch({ type: "SUCCESS" })
 				return response.json()
 			})
 			.then((resData) => {
@@ -58,36 +78,38 @@ const Ingredients = (props) => {
 	}
 
 	const removeIngredientHandler = (id) => {
-		setIsloading(true)
+		httpdispatch({ type: "START" })
 		fetch(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, {
 			method: "DELETE",
 		})
 			.then(() => {
-				setIsloading(false)
+				httpdispatch({ type: "SUCCESS" })
 				dispatch({
 					type: "DELETE",
 					id: id,
 				})
 			})
 			.catch((error) => {
-				setError("Something went wrong!")
-				setIsloading(false)
+				httpdispatch({ type: "FAILED", error: "Something went wrong!" })
 			})
 	}
 
 	return (
 		<div className="App">
-			{error && (
+			{httpstate.error && (
 				<ErrorModal
 					onClose={() => {
-						setError(null)
+						httpdispatch({ type: "CLEAR" })
 					}}
 				>
-					{error}
+					{httpstate.error}
 				</ErrorModal>
 			)}
 
-			<IngredientForm onAdd={addIngredientHandler} loading={isLoading} />
+			<IngredientForm
+				onAdd={addIngredientHandler}
+				loading={httpstate.loading}
+			/>
 			<section>
 				<Search onLoadIngredients={filteredIngredientsHandler} />
 				<IngredientList
