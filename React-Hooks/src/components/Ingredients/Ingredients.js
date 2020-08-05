@@ -36,14 +36,11 @@ const Ingredients = (props) => {
 	}
 
 	const removeIngredientHandler = (id) => {
-		let oldIngredients = [...ingredients]
-		oldIngredients.map((ig) => {
-			if (ig.id === id) {
-				let ingredientIndex = oldIngredients.indexOf(ig)
-				return oldIngredients.splice(ingredientIndex, 1)
-			}
+		fetch(`https://dummyproject-35081.firebaseio.com/ingredients/${id}.json`, {
+			method: "DELETE",
+		}).then((response) => {
+			setIngredients((prevIg) => prevIg.filter((ig) => ig.id !== id))
 		})
-		setIngredients([...oldIngredients])
 	}
 
 	return (
