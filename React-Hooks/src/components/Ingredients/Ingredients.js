@@ -32,7 +32,7 @@ const HttpReducer = (currentState, action) => {
 	}
 }
 
-const Ingredients = (props) => {
+const Ingredients = () => {
 	const [ingredients, dispatch] = React.useReducer(ingredientReducer, [])
 	const [httpstate, httpdispatch] = React.useReducer(HttpReducer, {
 		loading: false,
@@ -43,7 +43,7 @@ const Ingredients = (props) => {
 
 	console.log("Rendering..")
 	React.useEffect(() => {
-		console.log("Rendering", ingredients)
+		console.log("Rendering ingredients", ingredients)
 	}, [ingredients])
 
 	const filteredIngredientsHandler = React.useCallback((filterIg) => {
@@ -74,7 +74,7 @@ const Ingredients = (props) => {
 					},
 				})
 			})
-	})
+	}, [])
 
 	const removeIngredientHandler = React.useCallback((id) => {
 		httpdispatch({ type: "START" })
@@ -93,6 +93,10 @@ const Ingredients = (props) => {
 			})
 	}, [])
 
+	const clearError = React.useCallback(() => {
+		httpdispatch({ type: "CLEAR" })
+	}, [])
+
 	const ingredientList = useMemo(() => {
 		return (
 			<IngredientList
@@ -105,13 +109,7 @@ const Ingredients = (props) => {
 	return (
 		<div className="App">
 			{httpstate.error && (
-				<ErrorModal
-					onClose={() => {
-						httpdispatch({ type: "CLEAR" })
-					}}
-				>
-					{httpstate.error}
-				</ErrorModal>
+				<ErrorModal onClose={clearError}>{httpstate.error}</ErrorModal>
 			)}
 
 			<IngredientForm
