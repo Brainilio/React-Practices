@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react"
 
-import IngredientForm from './IngredientForm';
-import Search from './Search';
+import IngredientForm from "./IngredientForm"
+import IngredientList from "./IngredientList"
+import Search from "./Search"
+import { useState } from "react"
 
-function Ingredients() {
-  return (
-    <div className="App">
-      <IngredientForm />
+const Ingredients = (props) => {
+	const [ingredients, setIngredients] = React.useState([])
 
-      <section>
-        <Search />
-        {/* Need to add list here! */}
-      </section>
-    </div>
-  );
+	return (
+		<div className="App">
+			<IngredientForm />
+
+			<section>
+				<Search />
+				<IngredientList ingredients={ingredients} />
+			</section>
+		</div>
+	)
 }
 
-export default Ingredients;
+export default Ingredients
