@@ -5,12 +5,13 @@ import "./IngredientForm.css"
 
 const IngredientForm = React.memo((props) => {
 	const [form, setForm] = useState({
-		name: "",
+		title: "",
 		amount: "",
 	})
 
 	const submitHandler = (event) => {
 		event.preventDefault()
+		props.onAdd(form)
 	}
 
 	return (
@@ -24,10 +25,10 @@ const IngredientForm = React.memo((props) => {
 							id="title"
 							value={form.name}
 							onChange={(e) => {
-								const newName = e.target.value
+								const newTitle = e.target.value
 								setForm((prevState) => ({
 									...prevState,
-									name: newName,
+									title: newTitle,
 								}))
 							}}
 						/>
