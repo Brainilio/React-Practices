@@ -18,7 +18,7 @@ export const useStore = () => {
 	const setState = useState(globalState)[1] //updating function only
 
 	//catch action identifier
-	const dispatch = (actionType) => {
+	const dispatch = (actionType, payload) => {
 		//actions should have a key actiontype and value should be a function
 		const newState = actions[actionType](globalState)
 		globalState = { ...globalState, ...newState }
