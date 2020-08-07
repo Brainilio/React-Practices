@@ -1,0 +1,9 @@
+Context is great for low frequency updates, but not for high updates 
+
+> User authentication is not going to chang eoften, so you can use context-api 
+> A high frequency update for, for exmaple an element that is constantly changing
+> Every component that uses usecontext will be updated, even if its not being affected 
+> It's great for some things, but not for everything
+
+
+There is a different way to have a global store by building a custom hook for it 
